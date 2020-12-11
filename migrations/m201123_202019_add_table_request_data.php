@@ -21,8 +21,7 @@ class m201123_202019_add_table_request_data extends Migration
                     `value` json not null,
                     `createdAt` datetime not null,
                     PRIMARY KEY id(id),
-                    INDEX type(typeId, typeValue),
-                    INDEX userId(userId)
+                    INDEX userType(userId, typeId, typeValue),
                 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 )'
         )

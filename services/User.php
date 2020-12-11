@@ -3,6 +3,7 @@
 namespace app\services;
 
 use app\services\rateLimit\LeackyBucket;
+use app\services\rateLimit\SlidingWindow;
 use app\services\rateLimit\Worker;
 use Yii;
 
@@ -24,7 +25,8 @@ class User
         if (isset(self::$authorization[$token['key']]) && in_array($token['id'], self::$authorization[$token['key']])) {
             $userId = Yii::$app->hashSecretCode->decode($token['id'])[0];
             if (!empty($userId)) {
-                $worker = new Worker(new LeackyBucket($userId, 2, 10));
+//                $worker = new Worker(new LeackyBucket($userId, 2, 10));
+                $worker = new Worker(new SlidingWindow($userId, 2, 10));
                 $worker->doAction();
 
                 return $userId;
